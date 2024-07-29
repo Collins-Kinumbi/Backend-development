@@ -1,4 +1,7 @@
-const express = require("express");
+// ES6 syntax
+/////////////////////////////////////////////////////////
+
+import express from "express";
 
 const app = express();
 
@@ -29,3 +32,28 @@ app.get("/hobbies", (req, res) => {
 app.listen(port, () => {
   console.log(`Server started on port: ${port}`);
 });
+
+///////////////////////////////////////////////////////
+
+//Common js syntax
+/////////////////////////////////////////////////////////
+// const express = require("express");
+
+// const app = express();
+
+// const port = 3000;
+
+// app.get("/", (req, res) => {
+//   // console.log(req);
+//   res.send("<h1>Hello there</h1>");
+// });
+
+// app.get("/contact", (req, res) => {
+//   // console.log(req);
+//   res.send("<h1>Contact me @webdev.gmail.com</h1>");
+// });
+
+// app.listen(port, () => {
+//   console.log("Server started on port: " + port);
+// });
+/////////////////////////////////////////////////////////
