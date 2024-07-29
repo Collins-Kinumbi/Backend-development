@@ -32,6 +32,27 @@ app.post("/", (req, res) => {
   res.send(`Thanks for posting that, the result is ${num1 + num2}`);
 });
 
+// BMI Calculator challenge
+app.get("/bmicalculator", (req, res) => {
+  res.sendFile(__dirname + "/bmiCalculator.html");
+});
+
+app.post("/bmicalculator", (req, res) => {
+  console.log(req.body);
+
+  const weight = parseFloat(req.body.weight);
+  const height = parseFloat(req.body.height);
+
+  if (isNaN(weight) || isNaN(height)) {
+    res.send(`Please enter valid numbers`);
+    return;
+  }
+
+  const bmi = weight / (height * height);
+
+  res.send(`Thank you for your input, your BMI is ${bmi.toFixed(2)}`);
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
@@ -39,7 +60,7 @@ app.listen(port, () => {
 /////////////////////////////////////////////////////////
 
 //Common js syntax
-/////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////
 // const express = require("express");
 // const bodyParser = require("body-parser");
 
@@ -68,6 +89,28 @@ app.listen(port, () => {
 //   }
 
 //   res.send(`Thanks for posting that, the result is ${num1 + num2}`);
+// });
+
+// //BMI calculator challenge
+// app.get("/bmicalculator", (req, res) => {
+//   res.sendFile(__dirname + "/bmiCalculator.html");
+// });
+
+// app.post("/bmicalculator", (req, res) => {
+//   console.log(req.body);
+
+//   const weight = parseFloat(req.body.weight);
+//   const height = parseFloat(req.body.height);
+
+//   if (isNaN(weight) || isNaN(height)) {
+//     res.send(`Please enter valid numbers`);
+//     return;
+//   }
+
+// const bmi = weight / (height * height);
+
+//   res.send(`Thank you for your input, your BMI is ${bmi.toFixed(2)}`);
+
 // });
 
 // app.listen(port, () => {
