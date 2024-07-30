@@ -51,14 +51,21 @@ app.post("/", (req, res) => {
     });
 
     if (response.statusCode === 200) {
-      res.send("Successfully subscribed!");
+      // res.send("Successfully subscribed!");
+      res.sendFile(__dirname + "/success.html");
     } else {
-      res.send("There was an error with signing up, please try again!");
+      // res.send("There was an error with signing up, please try again!");
+      res.sendFile(__dirname + "/failure.html");
     }
   });
 
   request.write(jsonData);
   request.end();
+});
+
+// back to signup page if subscription failed
+app.post("/failure", (req, res) => {
+  res.redirect("/");
 });
 
 app.listen(port, () => {
