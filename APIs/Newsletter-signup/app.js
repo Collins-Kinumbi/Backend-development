@@ -4,7 +4,8 @@ const https = require("https");
 
 const app = express();
 
-const port = 3000;
+//dynamic port
+const port = process.env.PORT;
 
 const key = "339d2454a60ec58ff93b99f231594a83-us14";
 
@@ -68,6 +69,6 @@ app.post("/failure", (req, res) => {
   res.redirect("/");
 });
 
-app.listen(port, () => {
+app.listen(port || 3000, () => {
   console.log("Server running on port: " + port);
 });
