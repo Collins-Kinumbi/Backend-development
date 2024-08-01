@@ -9,6 +9,9 @@ let items = ["buy food", "cook food", "eat food"];
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Serving up static files
+app.use(express.static("public"));
+
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
