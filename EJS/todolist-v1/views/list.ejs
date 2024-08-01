@@ -1,18 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Todo list</title>
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-
-<body>
-
+<%- include('header'); -%>
   <div class="box" id="heading">
     <h1>
-      <%= kindOfDay %>
+      <%= listTitle %>
     </h1>
   </div>
 
@@ -29,12 +18,7 @@
 
         <form class="item" action="/" method="post">
           <input type="text" name="newItem" id="newItem" placeholder="Enter new todo ">
-          <button type="submit">+</button>
+          <button type="submit" name="list" value=<%=listTitle %>>+</button>
         </form>
   </div>
-  <footer>
-    <p> @Collins kinumbi </p>
-  </footer>
-</body>
-
-</html>
+  <%- include('footer'); -%>
