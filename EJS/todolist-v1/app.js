@@ -5,6 +5,8 @@ const app = express();
 
 const port = 3000;
 
+let items = ["buy food", "cook food", "eat food"];
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
@@ -12,29 +14,26 @@ app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   // res.send("Hello there");
   const today = new Date();
-  const currentDay = today.getDay();
 
-  const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
-  let day = "";
+  let day = today.toLocaleString("en-US", options);
 
-  if (currentDay === 6 || currentDay === 0) {
-    day = dayNames[currentDay];
-    // res.render("list", { kindOfDay: day });
-  } else {
-    day = dayNames[currentDay];
-    // res.render("list", { kindOfDay: day });
-  }
+  res.render("list", { kindOfDay: day, newListItems: items });
+});
 
-  res.render("list", { kindOfDay: day });
+app.post("/", (req, res) => {
+  // console.log(req.body);
+  const { newItem } = req.body;
+
+  items.push(newItem);
+
+  res.redirect("/");
 });
 
 app.listen(port, () => {
