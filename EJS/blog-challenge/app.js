@@ -18,18 +18,25 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// Home page
 app.get("/", (req, res) => {
   res.render("home", { homeContent: homeStartingContent });
 });
+////////////////////////////////////////////////////
 
+// About page
 app.get("/about", (req, res) => {
   res.render("about", { aboutContent: aboutContent });
 });
+////////////////////////////////////////////////////
 
+// Contact page
 app.get("/contact", (req, res) => {
   res.render("contact", { contactContent: contactContent });
 });
+////////////////////////////////////////////////////
 
+// Compose page
 app.get("/compose", (req, res) => {
   res.render("compose");
 });
@@ -37,6 +44,7 @@ app.get("/compose", (req, res) => {
 app.post("/compose", (req, res) => {
   console.log(req.body.postTitle);
 });
+////////////////////////////////////////////////////
 
 app.listen(3000, function () {
   console.log("Server started on port 3000");
