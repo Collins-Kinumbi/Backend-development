@@ -7,7 +7,7 @@
   </p>
 
   <ul>
-    <% for(let i=0; i<postItems.length; i++){%>
+    <!-- <% for(let i=0; i<postItems.length; i++){%>
       <li>
         <p>
           <%= postItems[i].postTitle %>
@@ -16,7 +16,17 @@
           <%= postItems[i].postBody %>
         </p>
       </li>
-      <%}%>
+      <%}%> -->
+    <% postItems.forEach((item)=>{ %>
+      <li>
+        <p>
+          <%= item.postTitle %>
+        </p>
+        <p>
+          <%= item.postBody %>
+        </p>
+      </li>
+      <%})%>
   </ul>
 
   <%- include('partials/footer'); -%>
