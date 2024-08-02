@@ -42,7 +42,16 @@ app.get("/compose", (req, res) => {
 });
 
 app.post("/compose", (req, res) => {
-  console.log(req.body.postTitle);
+  // console.log(req.body.postTitle);
+  // console.log(req.body.postBody);
+
+  const { postTitle, postBody } = req.body;
+
+  const post = {
+    postTitle,
+    postBody,
+  };
+  // console.log(post);
 });
 ////////////////////////////////////////////////////
 
