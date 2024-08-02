@@ -6,4 +6,17 @@
     <%= homeContent %>
   </p>
 
+  <ul>
+    <% for(let i=0; i<postItems.length; i++){%>
+      <li>
+        <p>
+          <%= postItems[i].postTitle %>
+        </p>
+        <p>
+          <%= postItems[i].postBody %>
+        </p>
+      </li>
+      <%}%>
+  </ul>
+
   <%- include('partials/footer'); -%>
