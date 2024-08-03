@@ -62,6 +62,13 @@ app.post("/compose", (req, res) => {
 });
 ////////////////////////////////////////////////////
 
+// Dynamic routes
+app.get("/posts/:postName", (req, res) => {
+  console.log(req.params);
+});
+
+////////////////////////////////////////////////////
+
 app.listen(3000, function () {
   console.log("Server started on port 3000");
 });
