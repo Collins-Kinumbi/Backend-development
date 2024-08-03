@@ -77,8 +77,6 @@ app.get("/posts/:postName", (req, res) => {
         title: post.postTitle,
         content: post.postBody,
       });
-    } else {
-      console.log("match not found");
     }
   });
 });
