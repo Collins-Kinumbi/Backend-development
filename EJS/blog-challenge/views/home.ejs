@@ -6,8 +6,8 @@
     <%= homeContent %>
   </p>
 
-  <ul>
-    <!-- <% for(let i=0; i<postItems.length; i++){%>
+
+  <!-- <% for(let i=0; i<postItems.length; i++){%>
       <li>
         <p>
           <%= postItems[i].postTitle %>
@@ -17,16 +17,16 @@
         </p>
       </li>
       <%}%> -->
-    <% postItems.forEach((item)=>{ %>
-      <li>
-        <p>
-          <%= item.postTitle %>
-        </p>
-        <p>
-          <%= item.postBody %>
-        </p>
-      </li>
-      <%})%>
-  </ul>
+  <% postItems.forEach((item)=>{ %>
 
-  <%- include('partials/footer'); -%>
+    <h1>
+      <%= item.postTitle %>
+    </h1>
+    <p>
+      <%= item.postBody %>
+    </p>
+
+    <%})%>
+
+
+      <%- include('partials/footer'); -%>
