@@ -3,6 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const _ = require("lodash");
 
 const posts = [];
 
@@ -65,10 +66,11 @@ app.post("/compose", (req, res) => {
 // Dynamic routes
 app.get("/posts/:postName", (req, res) => {
   console.log(req.params);
-  const { postName } = req.params;
+  const postName = _.lowerCase(req.params.postName);
 
   posts.forEach((post) => {
-    if (post.postTitle === postName) {
+    const postTitle = _.lowerCase(post.postTitle);
+    if (postTitle === postName) {
       console.log("match found");
     } else {
       console.log("match not found");
