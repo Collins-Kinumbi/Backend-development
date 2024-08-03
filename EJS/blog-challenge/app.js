@@ -65,6 +65,15 @@ app.post("/compose", (req, res) => {
 // Dynamic routes
 app.get("/posts/:postName", (req, res) => {
   console.log(req.params);
+  const { postName } = req.params;
+
+  posts.forEach((post) => {
+    if (post.postTitle === postName) {
+      console.log("match found");
+    } else {
+      console.log("match not found");
+    }
+  });
 });
 
 ////////////////////////////////////////////////////
