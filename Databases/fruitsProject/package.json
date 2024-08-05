@@ -1,0 +1,15 @@
+{
+  "name": "fruitsproject",
+  "version": "1.0.0",
+  "description": "learning native MongoDB Driver",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Collins KInumbi",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.2"
+  }
+}
