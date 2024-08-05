@@ -58,8 +58,6 @@ async function insertMany(arr) {
   }
 }
 
-insertMany(defaultItems);
-
 ////////////////////////////////////////////////
 
 // Home route
@@ -68,7 +66,24 @@ app.get("/", (req, res) => {
 
   const day = date();
 
-  res.render("list", { listTitle: day, newListItems: items });
+  // Find and log all items
+  async function find() {
+    try {
+      const items = await Item.find();
+
+      if (items.length === 0) {
+        insertMany(defaultItems);
+        // console.log(items);
+        res.redirect("/");
+      } else {
+        res.render("list", { listTitle: day, newListItems: items });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  find();
 });
 
 app.post("/", (req, res) => {
