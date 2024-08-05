@@ -5,46 +5,35 @@ const url = "mongodb://localhost:27017/fruitsDB";
 mongoose.connect(url);
 
 const fruitSchema = new mongoose.Schema({
-  name: String,
-  rating: Number,
+  name: {
+    type: String,
+    required: [true, "Please check your data entry, no name specified!"],
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 10,
+  },
   review: String,
 });
 
 const Fruit = mongoose.model("Fruit", fruitSchema);
 
-const fruit = new Fruit({
-  name: "Apple",
-  rating: 9,
-  review: "Scrumptious!",
-});
+// const fruit = new Fruit({
+//   name: "Apple",
+//   rating: 9,
+//   review: "Scrumptious!",
+// });
 
-const lime = new Fruit({
-  name: "Lime",
-  rating: 9,
-  review: "Me love some citrus!",
-});
-
-const grapes = new Fruit({
-  name: "Grapes",
+const concordGrapes = new Fruit({
+  name: "Concord grapes",
   rating: 10,
-  review: "So sweet and juicy!",
-});
-const pear = new Fruit({
-  name: "Pear",
-  rating: 7,
-  review: "Apple wannabe!",
+  review: "Best these grapes reign supreme",
 });
 
-const personSchema = new mongoose.Schema({
-  name: String,
-  age: Number,
-});
-
-const Person = mongoose.model("Person", personSchema);
-
-const person = new Person({
-  name: "John",
-  age: 37,
+const grapple = new Fruit({
+  rating: 10,
+  review: "Best these grapes reign supreme",
 });
 
 // Save a single fruit
@@ -57,6 +46,27 @@ async function saveFruit(fruit) {
   }
 }
 
+// saveFruit(fruit);
+// saveFruit(concordGrapes);
+// saveFruit(grapple);
+
+// const lime = new Fruit({
+//   name: "Lime",
+//   rating: 9,
+//   review: "Me love some citrus!",
+// });
+
+// const grapes = new Fruit({
+//   name: "Grapes",
+//   rating: 10,
+//   review: "So sweet and juicy!",
+// });
+// const pear = new Fruit({
+//   name: "Pear",
+//   rating: 7,
+//   review: "Apple wannabe!",
+// });
+
 // Save multiple fruits
 async function saveFruits(fruits) {
   try {
@@ -67,15 +77,7 @@ async function saveFruits(fruits) {
   }
 }
 
-// Save a person
-async function savePerson(person) {
-  try {
-    await person.save();
-    console.log("Person saved successfully!");
-  } catch (err) {
-    console.error(err);
-  }
-}
+// saveFruits([lime, grapes, pear]);
 
 // Find and log all fruits
 async function findFruits() {
@@ -94,7 +96,28 @@ async function findFruits() {
   }
 }
 
-// saveFruit(fruit);
-// saveFruits([lime, grapes, pear]);
-// savePerson(person);
 findFruits();
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+});
+
+const Person = mongoose.model("Person", personSchema);
+
+const person = new Person({
+  name: "John",
+  age: 37,
+});
+
+// Save a person
+async function savePerson(person) {
+  try {
+    await person.save();
+    console.log("Person saved successfully!");
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// savePerson(person);
