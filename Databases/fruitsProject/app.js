@@ -96,8 +96,41 @@ async function findFruits() {
   }
 }
 
-findFruits();
+// findFruits();
 
+// Updating
+async function updateFruit(filter, update) {
+  try {
+    await Fruit.updateOne(filter, update);
+    console.log("Fruit updated successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// updateFruit(
+//   { _id: "66b0822bcda8fc83f1ba75ce" },
+//   {
+//     name: "Grapple",
+//     rating: 8,
+//     review: "Weird in a good way! Tastes like an apple and a grape! ",
+//   }
+// );
+
+// Deleting
+// // Delete one
+async function deleteFruit(condtion) {
+  try {
+    await Fruit.deleteOne(condtion);
+    console.log("Fruit deleted successfully");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// deleteFruit({ name: "Grapple" });
+
+////////////////////////////////////////////////
 const personSchema = new mongoose.Schema({
   name: String,
   age: Number,
@@ -121,3 +154,15 @@ async function savePerson(person) {
 }
 
 // savePerson(person);
+
+// Delete many
+async function deletePeople(condtion) {
+  try {
+    await Person.deleteMany(condtion);
+    console.log("Items deleted successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// deletePeople({ name: "John" });
