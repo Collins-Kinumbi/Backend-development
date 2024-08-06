@@ -58,6 +58,16 @@ async function insertMany(arr) {
   }
 }
 
+//Save one item
+async function save(item) {
+  try {
+    await item.save();
+    console.log("Item saved successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 ////////////////////////////////////////////////
 
 // Home route
@@ -89,15 +99,23 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   // console.log(req.body);
 
-  const { newItem } = req.body;
+  // if (list === "Work") {
+  //   workItems.push(newItem);
+  //   res.redirect("/work");
+  // } else {
+  //   items.push(newItem);
+  //   res.redirect("/");
+  // }
 
-  if (req.body.list === "Work") {
-    workItems.push(newItem);
-    res.redirect("/work");
-  } else {
-    items.push(newItem);
-    res.redirect("/");
-  }
+  const { newItem, list } = req.body;
+
+  const item = new Item({
+    name: newItem,
+  });
+
+  save(item);
+
+  res.redirect("/");
 });
 ////////////////////////////////////////////////////
 
