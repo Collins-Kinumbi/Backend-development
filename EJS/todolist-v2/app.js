@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 const app = express();
 
@@ -43,7 +44,7 @@ const item2 = new Item({
 });
 
 const item3 = new Item({
-  name: "Turn it on and start gaming!",
+  name: "Turn it on your new pc and start gaming!",
 });
 
 const defaultItems = [item1, item2, item3];
@@ -123,7 +124,7 @@ app.get("/", (req, res) => {
 app.get("/:listName", (req, res) => {
   // console.log(req.params);
 
-  const listName = req.params.listName;
+  const listName = _.capitalize(req.params.listName);
 
   async function findOne(obj) {
     try {
