@@ -30,7 +30,7 @@ const itemsSchema = new mongoose.Schema({
   },
 });
 
-// Model
+// Model for items
 const Item = mongoose.model("Item", itemsSchema);
 
 // Creating mongoose document(s)
@@ -48,6 +48,19 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3];
 
+// List Schema for the dynamic route
+const listSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Please ensure you entered an Item."],
+  },
+  items: [itemsSchema],
+});
+
+// Model for list
+const List = mongoose.model("List", listSchema);
+
+////////////////////////////////////////////////
 //Insert into Items collection
 async function insertMany(arr) {
   try {
@@ -106,6 +119,46 @@ app.get("/", (req, res) => {
   find();
 });
 
+// Dynamic routing
+app.get("/:listName", (req, res) => {
+  // console.log(req.params);
+
+  const listName = req.params.listName;
+
+  async function findOne(obj) {
+    try {
+      const foundList = await List.findOne(obj);
+      if (foundList) {
+        // console.log("Found one!");
+
+        //Show existing list
+        res.render("list", {
+          listTitle: foundList.name,
+          newListItems: foundList.items,
+        });
+      } else {
+        // console.log("Not found!");
+
+        // Create new list
+        const list = new List({
+          name: listName,
+          items: defaultItems,
+        });
+
+        save(list);
+
+        res.redirect(`/${listName}`);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  findOne({ name: listName });
+});
+
+////////////////////////////////////////////////
+
 app.post("/", (req, res) => {
   // console.log(req.body);
 
@@ -128,6 +181,9 @@ app.post("/", (req, res) => {
   res.redirect("/");
 });
 
+////////////////////////////////////////////////
+
+// delete
 app.post("/delete", (req, res) => {
   // console.log(req.body);
 
@@ -141,10 +197,10 @@ app.post("/delete", (req, res) => {
 
 ////////////////////////////////////////////////////
 
-// Work route
-app.get("/work", (req, res) => {
-  res.render("list", { listTitle: "Work list", newListItems: workItems });
-});
+// // Work route
+// app.get("/work", (req, res) => {
+//   res.render("list", { listTitle: "Work list", newListItems: workItems });
+// });
 
 ////////////////////////////////////////////////////
 
