@@ -191,15 +191,27 @@ app.post("/", (req, res) => {
 ////////////////////////////////////////////////
 
 // delete
-app.post("/delete", (req, res) => {
+app.post("/delete", async (req, res) => {
   // console.log(req.body);
 
-  const { checkbox: checkedItemId } = req.body;
+  const { checkbox: checkedItemId, listName } = req.body;
   // console.log(checkedItemId);
 
-  deleteItem({ _id: checkedItemId });
-
-  res.redirect("/");
+  if (listName === day) {
+    await deleteItem({ _id: checkedItemId });
+    res.redirect("/");
+  } else {
+    try {
+      await List.findOneAndUpdate(
+        { name: listName },
+        { $pull: { items: { _id: checkedItemId } } }
+      );
+      res.redirect(`/${listName}`);
+    } catch (err) {
+      console.log("Error:", err);
+      res.redirect(`/${listName}`);
+    }
+  }
 });
 
 ////////////////////////////////////////////////////
