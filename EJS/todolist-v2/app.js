@@ -68,6 +68,16 @@ async function save(item) {
   }
 }
 
+// Delete item
+async function deleteItem(obj) {
+  try {
+    await Item.deleteOne(obj);
+    console.log("Item deleted successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 ////////////////////////////////////////////////
 
 // Home route
@@ -117,6 +127,18 @@ app.post("/", (req, res) => {
 
   res.redirect("/");
 });
+
+app.post("/delete", (req, res) => {
+  // console.log(req.body);
+
+  const { checkbox: checkedItemId } = req.body;
+  // console.log(checkedItemId);
+
+  deleteItem({ _id: checkedItemId });
+
+  res.redirect("/");
+});
+
 ////////////////////////////////////////////////////
 
 // Work route
