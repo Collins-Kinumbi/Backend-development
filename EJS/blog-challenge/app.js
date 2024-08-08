@@ -4,8 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
-
-const posts = [];
+const mongoose = require("mongoose");
 
 const homeStartingContent =
   "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -20,6 +19,35 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+// Connecting to mongodb
+const url = "mongodb://localhost:27017/blogPostsDB";
+mongoose.connect(url);
+
+// Create posts schema
+const postsSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: [true, "Please ensure you entered an Item."],
+  },
+  content: {
+    type: String,
+    required: [true, "Please ensure you entered an Item."],
+  },
+});
+
+// Model for posts
+const Post = mongoose.model("Post", postsSchema);
+
+//Save one post
+async function save(item) {
+  try {
+    await item.save();
+    console.log("Item saved successfully!");
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 // Home page
 app.get("/", (req, res) => {
@@ -50,14 +78,12 @@ app.post("/compose", (req, res) => {
 
   const { postTitle, postBody } = req.body;
 
-  const post = {
-    postTitle,
-    postBody,
-  };
+  const post = new Post({
+    title: postTitle,
+    content: postBody,
+  });
 
-  posts.push(post);
-  // console.log(post);
-  // console.log(posts);
+  save(post);
 
   res.redirect("/");
 });
