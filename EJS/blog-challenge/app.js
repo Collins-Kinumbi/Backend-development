@@ -2,7 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
+
 const _ = require("lodash");
 const mongoose = require("mongoose");
 
@@ -101,21 +101,23 @@ app.post("/compose", (req, res) => {
 ////////////////////////////////////////////////////
 
 // Dynamic routes
-app.get("/posts/:postName", (req, res) => {
-  console.log(req.params);
-  const postName = _.lowerCase(req.params.postName);
+app.get("/posts/:postId", (req, res) => {
+  // console.log(req.params);
+  const requestedPostId = req.params.postId;
 
-  posts.forEach((post) => {
-    const postTitle = _.lowerCase(post.postTitle);
-
-    if (postTitle === postName) {
-      console.log("match found");
+  async function findOne(obj) {
+    try {
+      const foundPost = await Post.findOne(obj);
+      // console.log("match found");
       res.render("post", {
-        title: post.postTitle,
-        content: post.postBody,
+        title: foundPost.title,
+        content: foundPost.content,
       });
+    } catch (err) {
+      console.log(err);
     }
-  });
+  }
+  findOne({ _id: requestedPostId });
 });
 
 ////////////////////////////////////////////////////
