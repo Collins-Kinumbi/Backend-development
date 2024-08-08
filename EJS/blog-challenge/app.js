@@ -51,7 +51,18 @@ async function save(item) {
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("home", { homeContent: homeStartingContent, postItems: posts });
+  async function find() {
+    try {
+      const posts = await Post.find();
+      res.render("home", {
+        homeContent: homeStartingContent,
+        postItems: posts.reverse(),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  find();
 });
 ////////////////////////////////////////////////////
 
@@ -76,11 +87,11 @@ app.post("/compose", (req, res) => {
   // console.log(req.body.postTitle);
   // console.log(req.body.postBody);
 
-  const { postTitle, postBody } = req.body;
+  const { postTitle, postContent } = req.body;
 
   const post = new Post({
     title: postTitle,
-    content: postBody,
+    content: postContent,
   });
 
   save(post);
