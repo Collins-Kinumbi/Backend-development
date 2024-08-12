@@ -1,4 +1,5 @@
 //jshint esversion:6
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -32,7 +33,8 @@ const userSchema = new mongoose.Schema({
 });
 
 // Secret string
-const secret = "FireAndBlood.";
+const secret = process.env.SECRET;
+
 // plugin
 userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
 
@@ -60,7 +62,7 @@ app.post("/login", (req, res) => {
     try {
       const foundUser = await User.findOne(obj);
       if (foundUser) {
-        console.log(foundUser);
+        // console.log(foundUser);
         if (foundUser.password === password) {
           res.render("secrets");
         }
