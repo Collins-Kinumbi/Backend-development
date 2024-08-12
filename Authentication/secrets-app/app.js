@@ -2,6 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
 
 const app = express();
 const port = 3000;
@@ -19,7 +20,7 @@ const url = "mongodb://localhost:27017/userDB";
 mongoose.connect(url);
 
 // User schema
-const userSchema = {
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Please ensure you entered an email."],
@@ -28,7 +29,12 @@ const userSchema = {
     type: String,
     required: [true, "Please ensure you entered a password."],
   },
-};
+});
+
+// Secret string
+const secret = "FireAndBlood.";
+// plugin
+userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
 
 // User model
 const User = new mongoose.model("User", userSchema);
@@ -50,11 +56,11 @@ app.post("/login", (req, res) => {
   const { userEmail, password } = req.body;
 
   // Query user db for user and render secrets page if credentials match
-  async function findOne(obj) {
+  async function find(obj) {
     try {
       const foundUser = await User.findOne(obj);
       if (foundUser) {
-        // console.log(foundUser);
+        console.log(foundUser);
         if (foundUser.password === password) {
           res.render("secrets");
         }
@@ -64,7 +70,7 @@ app.post("/login", (req, res) => {
     }
   }
 
-  findOne({ email: userEmail });
+  find({ email: userEmail });
 });
 
 // Register page
