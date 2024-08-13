@@ -3,7 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const md5 = require("md5");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const app = express();
 const port = 3000;
@@ -57,9 +58,12 @@ app.post("/login", (req, res) => {
       const foundUser = await User.findOne(obj);
       if (foundUser) {
         // console.log(foundUser);
-        if (foundUser.password === md5(password)) {
-          res.render("secrets");
-        }
+        bcrypt.compare(password, foundUser.password, function (err, result) {
+          // result == true
+          if (result === true) {
+            res.render("secrets");
+          }
+        });
       }
     } catch (err) {
       console.log(err);
@@ -77,26 +81,28 @@ app.post("/register", (req, res) => {
   // Distructuring data from register form
   const { userEmail, password } = req.body;
 
-  // Creating new user
-  const newUser = new User({
-    email: userEmail,
-    password: md5(password),
-  });
+  bcrypt.hash(password, saltRounds, function (err, hash) {
+    // Creating new user
+    const newUser = new User({
+      email: userEmail,
+      password: hash,
+    });
 
-  // console.log(newUser);
+    // console.log(newUser);
 
-  // Save user to db
-  async function save(user) {
-    try {
-      await user.save();
-      // render secrets page
-      res.render("secrets");
-      console.log("Registered successfully!");
-    } catch (err) {
-      console.log(err);
+    // Save user to db
+    async function save(user) {
+      try {
+        await user.save();
+        // render secrets page
+        res.render("secrets");
+        console.log("Registered successfully!");
+      } catch (err) {
+        console.log(err);
+      }
     }
-  }
-  save(newUser);
+    save(newUser);
+  });
 });
 
 ///////////////////////////////////////////////
