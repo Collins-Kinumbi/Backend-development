@@ -32,9 +32,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Secret string
-const secret = process.env.SECRET;
-
 // User model
 const User = new mongoose.model("User", userSchema);
 
