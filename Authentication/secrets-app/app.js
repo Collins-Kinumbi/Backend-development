@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   googleId: String,
+  secret: String,
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -78,7 +79,16 @@ passport.use(
     }
   )
 );
+///////////////////////////////////////////////
 
+// save
+async function save(item) {
+  try {
+    await item.save();
+  } catch (err) {
+    console.log(err);
+  }
+}
 ///////////////////////////////////////////////
 
 // Routes
@@ -126,11 +136,40 @@ app.post("/login", (req, res) => {
 });
 
 // Secrets page
-app.get("/secrets", (req, res) => {
+app.get("/secrets", async (req, res) => {
+  try {
+    const foundUsers = await User.find({ secret: { $ne: null } });
+    // console.log(foundUsers);
+    if (foundUsers) {
+      res.render("secrets", { usersWithSecrets: foundUsers });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// Submit page
+app.get("/submit", (req, res) => {
   if (req.isAuthenticated()) {
-    res.render("secrets");
+    res.render("submit");
   } else {
     res.redirect("/login");
+  }
+});
+
+app.post("/submit", async (req, res) => {
+  const { secret } = req.body;
+  // console.log(secret);
+  // console.log(req.user);
+  try {
+    const foundUser = await User.findById(req.user.id);
+    if (foundUser) {
+      foundUser.secret = secret;
+      save(foundUser);
+      res.redirect("/secrets");
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 
