@@ -96,6 +96,22 @@ app
     } catch (err) {
       res.status(!200).send("An error occured while fetching article");
     }
+  })
+  // PUT specific article
+  .put(async (req, res) => {
+    const { articleTitle } = req.params;
+    const { title, content } = req.body;
+    try {
+      await Article.updateOne(
+        {
+          title: articleTitle,
+        },
+        { title: title, content: content },
+        { overwriteDiscriminatorKey: true }
+      );
+    } catch (err) {
+      res.status(!200).send("An error occured while updating the article");
+    }
   });
 
 /////////////////////////////////////////////
