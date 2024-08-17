@@ -28,6 +28,7 @@ const Article = mongoose.model("Artcle", articlesSchema);
 
 /////////////////////////////////////////////
 
+// GET all articles
 app.get("/articles", async (req, res) => {
   try {
     const foundArticles = await Article.find({});
@@ -35,6 +36,23 @@ app.get("/articles", async (req, res) => {
     res.send(foundArticles);
   } catch (err) {
     console.log(err);
+    res.send(err);
+  }
+});
+
+// POST an article
+app.post("/articles", async (req, res) => {
+  const { title, content } = req.body;
+  // console.log(title, content);
+  const newArticle = new Article({
+    title: title,
+    content: content,
+  });
+  try {
+    await newArticle.save();
+    res.send("Successfully added a new article");
+  } catch (err) {
+    // console.log(err);
     res.send(err);
   }
 });
