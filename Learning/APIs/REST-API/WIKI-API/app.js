@@ -57,6 +57,17 @@ app.post("/articles", async (req, res) => {
   }
 });
 
+// DELETE all articles
+app.delete("/articles", async (req, res) => {
+  try {
+    await Article.deleteMany();
+    res.send("Successfully deleted all articles");
+  } catch (err) {
+    console.log(err);
+    res.send(err);
+  }
+});
+
 app.listen(port, () => {
   console.log("Server running on port:" + port);
 });
