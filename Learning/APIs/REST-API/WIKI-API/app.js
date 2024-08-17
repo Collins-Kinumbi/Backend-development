@@ -112,6 +112,21 @@ app
     } catch (err) {
       res.status(!200).send("An error occured while updating the article");
     }
+  })
+  // PATCH specific article
+  .patch(async (req, res) => {
+    const { articleTitle } = req.params;
+
+    try {
+      await Article.updateOne(
+        {
+          title: articleTitle,
+        },
+        { $set: req.body }
+      );
+    } catch (err) {
+      res.status(!200).send("An error occured while updating the article");
+    }
   });
 
 /////////////////////////////////////////////
