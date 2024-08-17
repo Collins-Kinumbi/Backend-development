@@ -35,6 +35,8 @@ const Article = mongoose.model("Artcle", articlesSchema);
 
 /////////////////////////////////////////////
 
+// Requests targeting all articles
+
 app
   .route("/articles")
   // GET all articles
@@ -74,6 +76,29 @@ app
       res.status(!200).send("An error occured while deleting articles");
     }
   });
+
+///////////////////////////////////////////
+
+// Requests targeting specific articles
+app
+  .route("/article/:articleTitle")
+  // GET specific article
+  .get(async (req, res) => {
+    // console.log(req.params);
+    const { articleTitle } = req.params;
+    try {
+      const foundArticle = await Article.findOne({ title: articleTitle });
+      if (foundArticle) {
+        res.send(foundArticle);
+      } else {
+        res.send("No articles matching that title was found!");
+      }
+    } catch (err) {
+      res.status(!200).send("An error occured while fetching article");
+    }
+  });
+
+/////////////////////////////////////////////
 
 app.listen(port, () => {
   console.log("Server running on port:" + port);
