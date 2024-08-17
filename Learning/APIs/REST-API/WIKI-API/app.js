@@ -45,7 +45,7 @@ app
       res.send(foundArticles);
     } catch (err) {
       // console.log(err);
-      res.send(err);
+      res.status(!200).send("An error occured while fetching articles");
     }
   })
   // POST a new article
@@ -61,7 +61,7 @@ app
       res.send("Successfully added a new article");
     } catch (err) {
       // console.log(err);
-      res.send(err);
+      res.status(!200).send("An error occured while adding article");
     }
   })
   // DELETE all articles
@@ -71,7 +71,7 @@ app
       res.send("Successfully deleted all articles");
     } catch (err) {
       // console.log(err);
-      res.send(err);
+      res.status(!200).send("An error occured while deleting articles");
     }
   });
 
