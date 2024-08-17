@@ -19,8 +19,15 @@ mongoose.connect(url);
 
 // Articles Schema
 const articlesSchema = new mongoose.Schema({
-  title: String,
-  content: String,
+  title: {
+    type: String,
+    required: true,
+    minlength: 3,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
 });
 
 // Articles model
