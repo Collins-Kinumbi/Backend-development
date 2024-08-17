@@ -127,6 +127,15 @@ app
     } catch (err) {
       res.status(!200).send("An error occured while updating the article");
     }
+  })
+  // DELETE specific article
+  .delete(async (req, res) => {
+    const { articleTitle } = req.params;
+    try {
+      await Article.deleteOne({ title: articleTitle });
+    } catch (err) {
+      res.status(!200).send("An error occured while deleting article");
+    }
   });
 
 /////////////////////////////////////////////
