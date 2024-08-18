@@ -1,5 +1,7 @@
 import "dotenv/config";
 import express from "express";
+import router from "./routes/workouts.js";
+import bodyParser from "body-parser";
 
 const app = express();
 const port = process.env.PORT;
@@ -10,13 +12,12 @@ app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /////////////////////////////////////////////
 
 ////Route handlers
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to the app" });
-});
+app.use("/api/workouts", router);
 
 /////////////////////////////////////////////
 
