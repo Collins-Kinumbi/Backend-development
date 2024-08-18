@@ -45,5 +45,39 @@ export async function createWorkout(req, res) {
 }
 
 // update a workout
+export async function updateWorkout(req, res) {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such workout" });
+  }
+  try {
+    const workout = await Workout.findOneAndUpdate(
+      { _id: id },
+      { ...req.body },
+      { new: true } // This option returns the updated document
+    );
+    if (!workout) {
+      return res.status(404).json({ error: "No such workout" });
+    }
+    res.status(200).json(workout);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+}
 
 // delete a workout
+export async function deleteWorkout(req, res) {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "No such workout" });
+  }
+  try {
+    const workout = await Workout.findOneAndDelete({ _id: id });
+    if (!workout) {
+      return res.status(404).json({ error: "No such workout" });
+    }
+    res.status(200).json(workout);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+}

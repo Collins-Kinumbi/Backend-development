@@ -8,12 +8,17 @@ const app = express();
 const port = process.env.PORT;
 /////////////////////////////////////////////
 
-// Middleware
+//// Middleware
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
-app.use(bodyParser.urlencoded({ extended: true }));
+
+// Parse incoming JSON bodies
+app.use(express.json());
+
+// Parse URL-encoded bodies (for form submissions)
+app.use(express.urlencoded({ extended: true }));
 /////////////////////////////////////////////
 
 //// Connect to db
