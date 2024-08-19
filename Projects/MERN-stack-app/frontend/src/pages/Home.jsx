@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import WorkoutDetails from "../components/WorkoutDetails";
+import WorkoutForm from "../components/WorkoutForm";
 
 function Home() {
   const [workouts, setWorkouts] = useState(null);
@@ -10,7 +11,7 @@ function Home() {
     async function fetchWorkouts() {
       const res = await axios.get("/api/workouts");
       const { data } = res;
-      // console.log(data);
+      console.log(data);
 
       if (res.status === 200) {
         setWorkouts(data);
@@ -26,6 +27,7 @@ function Home() {
             return <WorkoutDetails key={workout._id} workout={workout} />;
           })}
       </div>
+      <WorkoutForm />
     </div>
   );
 }
