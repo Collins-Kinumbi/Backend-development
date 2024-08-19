@@ -7,6 +7,7 @@ function WorkoutForm() {
   const [reps, setReps] = useState("");
   const [error, setError] = useState(null);
 
+  // Send a post request to workouts api
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -19,7 +20,6 @@ function WorkoutForm() {
         },
       });
 
-      // Assuming your API returns a status and data
       if (res.status === 200) {
         setTitle("");
         setLoad("");
