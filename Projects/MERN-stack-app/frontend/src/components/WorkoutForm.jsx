@@ -8,6 +8,7 @@ function WorkoutForm() {
   const [load, setLoad] = useState("");
   const [reps, setReps] = useState("");
   const [error, setError] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   // Send a post request to workouts api
   async function handleSubmit(e) {
@@ -27,6 +28,7 @@ function WorkoutForm() {
         setLoad("");
         setReps("");
         setError(null);
+        setEmptyFields(null);
         console.log("Workout added:", res.data);
         dispatch({ type: "CREATE_WORKOUT", payload: res.data });
       } else {
@@ -34,10 +36,12 @@ function WorkoutForm() {
       }
     } catch (error) {
       // Set error state if the request fails
+      // console.log(error);
       setError(
         error.response?.data?.error ||
           "An error occurred while adding the workout."
       );
+      setEmptyFields(error.response?.data?.emptyFields);
     }
   }
 
@@ -51,6 +55,7 @@ function WorkoutForm() {
         onChange={(e) => setTitle(e.target.value)}
         value={title}
         id="title"
+        className={emptyFields.includes("title") ? "error" : ""}
       />
       {/* Load */}
       <label htmlFor="load">Load (in kg): </label>
@@ -59,6 +64,7 @@ function WorkoutForm() {
         onChange={(e) => setLoad(e.target.value)}
         value={load}
         id="load"
+        className={emptyFields.includes("load") ? "error" : ""}
       />
       {/* Reps */}
       <label htmlFor="reps">Reps: </label>
@@ -67,6 +73,7 @@ function WorkoutForm() {
         onChange={(e) => setReps(e.target.value)}
         value={reps}
         id="reps"
+        className={emptyFields.includes("reps") ? "error" : ""}
       />
 
       <button>Add workout</button>
