@@ -23,10 +23,13 @@ function Home() {
   return (
     <div className="home">
       <div className="workouts">
-        {workouts &&
+        {workouts.length === 0 ? (
+          <h4 style={{ textAlign: "center" }}>No workouts here yet</h4>
+        ) : (
           workouts.map((workout) => {
             return <WorkoutDetails key={workout._id} workout={workout} />;
-          })}
+          })
+        )}
       </div>
       <WorkoutForm />
     </div>
