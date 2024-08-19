@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
+import { useWorkoutContext } from "../hooks/useWorkoutsContext";
 
 function Home() {
-  const [workouts, setWorkouts] = useState(null);
+  const { workouts, dispatch } = useWorkoutContext();
 
   // Fetch from workouts api
   useEffect(() => {
@@ -14,11 +15,11 @@ function Home() {
       console.log(data);
 
       if (res.status === 200) {
-        setWorkouts(data);
+        dispatch({ type: "SET_WORKOUTS", payload: data });
       }
     }
     fetchWorkouts();
-  }, []);
+  }, [dispatch]);
   return (
     <div className="home">
       <div className="workouts">
