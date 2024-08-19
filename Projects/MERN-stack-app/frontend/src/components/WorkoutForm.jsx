@@ -28,7 +28,7 @@ function WorkoutForm() {
         setLoad("");
         setReps("");
         setError(null);
-        setEmptyFields(null);
+        setEmptyFields([]);
         console.log("Workout added:", res.data);
         dispatch({ type: "CREATE_WORKOUT", payload: res.data });
       } else {
