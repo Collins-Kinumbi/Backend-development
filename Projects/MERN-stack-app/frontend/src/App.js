@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 
 function App() {
   return (
-    <div classname="App">
+    <div className="App">
       <BrowserRouter>
         <Navbar />
         <div className="pages">
