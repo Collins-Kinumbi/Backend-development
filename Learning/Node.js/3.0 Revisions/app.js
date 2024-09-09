@@ -43,5 +43,38 @@ function writeTxtFileSync(filePath, data, encoding = "utf-8") {
   }
 }
 
-writeTxtFileSync("/files/Written", "Hello there!");
-readTxtFileSync("/files/written");
+// writeTxtFileSync("/files/Written", "Hello there!");
+// readTxtFileSync("/files/written");
+
+//////////////////////////////////////////////////
+
+// Reading And Writting Files Asyncronously using callbacks
+
+function readTxtFileCall(filePath, encoding = "utf-8") {
+  const fullPath = path.join(__dirname, filePath);
+
+  fs.readFile(`${fullPath}.txt`, encoding, (err, data) => {
+    if (err) {
+      console.error("Error reading the file:", err.message);
+      return;
+    }
+    console.log(data);
+  });
+}
+
+// readTxtFileCall("files/Written");
+
+function writeTxtFileCall(filePath, data, encoding = "utf-8") {
+  const fullPath = path.join(__dirname, filePath);
+
+  fs.writeFile(`${fullPath}.txt`, data, encoding, (err) => {
+    if (err) {
+      console.error("Error reading the file:", err.message);
+      return;
+    }
+    console.log("File Written And Saved!");
+  });
+}
+
+// writeTxtFileCall("/files/callbackTxt", "From writeTxtFileCall!");
+// readTxtFileCall("/files/callbackTxt");
