@@ -2,9 +2,11 @@
   "name": "revisions",
   "version": "1.0.0",
   "description": "Express.js practice",
-  "main": "index.js",
+  "main": "app.mjs",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/app.mjs",
+    "start": "node ./src/app.mjs"
   },
   "author": "Collins Kinumbi",
   "license": "ISC",
